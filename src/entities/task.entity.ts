@@ -21,6 +21,6 @@ export  class Task {
         default: TASK_STATUS.PENDING,
     })
     status: TASK_STATUS;
-    @ManyToOne(() => User, (user) => user.photos)
+    @ManyToOne(() => User, (user) => user.tasks)
     user: User
 }
