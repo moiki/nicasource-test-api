@@ -14,6 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@decorators/di": "^1.0.3",
+    "@decorators/express": "^2.7.0",
+    "@decorators/socket": "^3.2.0",
     "bcrypt": "^5.1.0",
     "chalk": "^5.2.0",
     "class-validator": "^0.14.0",
@@ -24,6 +27,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
+    "request-context": "^2.0.0",
     "ts-node": "^10.9.1",
     "typeorm": "^0.3.11"
   },

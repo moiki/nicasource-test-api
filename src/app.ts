@@ -3,6 +3,10 @@ import path from "path";
 import configCommon from "./common/enviroment.common";
 import cors from "cors";
 import {DataBaseConnection} from "./common/typeorm.common";
+import {attachControllers} from "@decorators/express";
+import AccountController from "./controllers/account.controller";
+import seedHelper from "./helpers/seed.helper";
+import * as console from "console";
 
 class Application {
     private readonly app: ExApplication;
@@ -14,6 +18,9 @@ class Application {
         this.startMiddlewares();
         this.startDatabaseInstance()
         this.registerRouters();
+        seedHelper.SeedUser()
+            .then(_=> console.log("Seed executed!"))
+            .catch(_=> console.log("Error seeding!"))
     }
 
     private startMiddlewares() {
@@ -36,6 +43,7 @@ class Application {
             res.sendFile(path.join(__dirname, '/templates/hello.html'));
         });
         // TODO: register routers
+        attachControllers(this.app, [AccountController]);
     }
 
     public start() {
