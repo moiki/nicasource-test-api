@@ -28,9 +28,11 @@
     "typeorm": "^0.3.11"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.15",
     "@types/jest": "^29.2.5",
+    "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "^18.11.18",
     "dotenv-webpack": "^8.0.1",
     "jest": "^29.3.1",
