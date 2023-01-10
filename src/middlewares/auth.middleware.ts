@@ -2,7 +2,6 @@ import {Middleware} from "@decorators/express";
 import {NextFunction, Request, Response} from "express";
 import jwt, {JwtPayload, Secret} from "jsonwebtoken";
 import environmentCommon from "../common/enviroment.common";
-const contextService = require('request-context');
 export const SECRET_KEY: Secret = environmentCommon.secret_key;
 
 export interface CustomRequest extends Request {
@@ -19,7 +18,7 @@ export default class AuthMiddleware implements Middleware {
             const decoded = jwt.verify(token, SECRET_KEY);
             (request as CustomRequest).token = decoded;
             (request as CustomRequest).user = JSON.parse(JSON.stringify(decoded));
-            contextService.set('req:userInfo', JSON.parse(JSON.stringify(decoded)));
+            // contextService.set('req:userInfo', JSON.parse(JSON.stringify(decoded)));
             next();
         } catch (err) {
             console.log(err.message)

@@ -9,8 +9,9 @@ export enum TASK_STATUS {
 @Entity({ name: "tasks" })
 export  class Task {
     @PrimaryGeneratedColumn("increment")
-    id: number;
+    id?: number;
     @Column()
+
     title: string;
 
     @Column()
@@ -20,7 +21,7 @@ export  class Task {
         enum: TASK_STATUS,
         default: TASK_STATUS.PENDING,
     })
-    status: TASK_STATUS;
+    status?: TASK_STATUS;
     @ManyToOne(() => User, (user) => user.tasks)
     user: User
 }

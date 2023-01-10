@@ -4,9 +4,10 @@ import configCommon from "./common/enviroment.common";
 import cors from "cors";
 import {DataBaseConnection} from "./common/typeorm.common";
 import {attachControllers} from "@decorators/express";
-import AccountController from "./controllers/account.controller";
+import AccountController from "./controllers/account/account.controller";
 import seedHelper from "./helpers/seed.helper";
 import * as console from "console";
+import TaskController from "./controllers/tasks/task.controller";
 
 class Application {
     private readonly app: ExApplication;
@@ -18,9 +19,6 @@ class Application {
         this.startMiddlewares();
         this.startDatabaseInstance()
         this.registerRouters();
-        seedHelper.SeedUser()
-            .then(_=> console.log("Seed executed!"))
-            .catch(_=> console.log("Error seeding!"))
     }
 
     private startMiddlewares() {
@@ -34,7 +32,12 @@ class Application {
 
     private startDatabaseInstance() {
         DataBaseConnection.initialize()
-            .then(_ => console.log("********* DATABASE CONNECTED **********"))
+            .then(_ => {
+                console.log("********* DATABASE CONNECTED **********");
+                seedHelper.SeedUser()
+                    .then(_=> console.log("Seed Process finished"))
+                    .catch(_=> console.log("Error seeding!"))
+            })
             .catch(err => console.log("[TYPEORM INIT ERROR] ", err))
     }
 
@@ -43,7 +46,7 @@ class Application {
             res.sendFile(path.join(__dirname, '/templates/hello.html'));
         });
         // TODO: register routers
-        attachControllers(this.app, [AccountController]);
+        attachControllers(this.app, [AccountController, TaskController]);
     }
 
     public start() {

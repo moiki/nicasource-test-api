@@ -12,7 +12,7 @@ export interface ILoginInput {
     password: string;
 }
 export interface IAccountRepository {
-    login(email:string, password: string): Promise<ResponseInterface<any>>;
+    login(email:string, password: string): Promise<any>;
     register(registerInput: ISignUpInput): Promise<boolean>;
     getSessionUser(email: string): Promise<any>;
 }

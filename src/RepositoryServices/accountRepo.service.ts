@@ -14,11 +14,16 @@ export default class AccountRepoService implements IAccountRepository {
     }
 
     async getSessionUser(email: string): Promise<any> {
-        try {
-            return await this.userManager.findBy({email});
-        } catch (error) {
-            console.log(error.message)
-        }
+        return await this.userManager.findOne({
+            where:{email},
+            relations: {tasks: true},
+            select: {
+                email:true,
+                firstName: true,
+                lastName: true,
+                id: true
+            }
+        });
     }
 
     async login(email: string, password: string): Promise<any> {
@@ -29,7 +34,6 @@ export default class AccountRepoService implements IAccountRepository {
         const getToken = GenerateToken(findUser);
         return {
             token: getToken.token,
-            email: findUser.email
         };
 
     }

@@ -6,7 +6,8 @@ import environmentCommon from "../common/enviroment.common";
 async function SeedUser() {
     try {
         const repo = DataBaseConnection.getRepository(User);
-        const userExistence = await repo.count()
+        const userExistence = await repo.count();
+        console.log(userExistence);
         if (userExistence < 1) {
             const hashed = await bcrypt.hash("pa$$w0rd", environmentCommon.salt_rounds);
             const user: any = {
@@ -15,12 +16,12 @@ async function SeedUser() {
                 lastName: "Doe",
                 passwordHash: hashed
             }
-            await repo.save(user)
+             await repo.save(user)
             console.log("Seed Executed!")
         }
         return true;
     } catch (error) {
-        console.log(error.message)
+        console.log({seedError: error.message})
         return false
     }
 }
