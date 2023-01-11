@@ -8,6 +8,9 @@ import AccountController from "./controllers/account/account.controller";
 import seedHelper from "./helpers/seed.helper";
 import * as console from "console";
 import TaskController from "./controllers/tasks/task.controller";
+import morgan from "morgan";
+import * as swagger from "swagger-express-ts";
+import {SwaggerDefinitionConstant} from "swagger-express-ts";
 
 class Application {
     private readonly app: ExApplication;
@@ -27,7 +30,24 @@ class Application {
             this.app.use(cors({origin: configCommon.allowed_origins}));
         } else {
             this.app.use(cors({origin: "*"}));
+            this.app.use(morgan("tiny"));
         }
+        this.app.use('/api-docs/swagger', express.static('swagger'));
+        this.app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
+        this.app.use(swagger.express(
+            {
+                definition: {
+                    info: {
+                        title: "Task Manager API",
+                        version: "1.0"
+                    },
+                    externalDocs: {
+                        url: "/docs"
+                    }
+                    // Models can be defined here
+                }
+            }
+        ));
     }
 
     private startDatabaseInstance() {
@@ -35,8 +55,8 @@ class Application {
             .then(_ => {
                 console.log("********* DATABASE CONNECTED **********");
                 seedHelper.SeedUser()
-                    .then(_=> console.log("Seed Process finished"))
-                    .catch(_=> console.log("Error seeding!"))
+                    .then(_ => console.log("Seed Process finished"))
+                    .catch(_ => console.log("Error seeding!"))
             })
             .catch(err => console.log("[TYPEORM INIT ERROR] ", err))
     }

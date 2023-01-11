@@ -1,7 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import {Task} from "./task.entity";
+import {ApiModel} from "swagger-express-ts";
 
 @Entity({ name: "users" })
+@ApiModel( {
+    description : "User model for account" ,
+    name : "v1"
+} )
 export class User {
     @PrimaryGeneratedColumn("uuid")
     id: string;
