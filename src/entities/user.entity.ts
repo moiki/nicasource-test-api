@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import {Task} from "./task.entity";
-// import { Tweet } from "./Tweet";
+import {Session} from "./session.entity";
 
 @Entity({ name: "users" })
 export class User {
@@ -12,6 +12,7 @@ export class User {
 
     @Column()
     lastName: string;
+
     @Column({unique: true})
     email: string;
 
@@ -19,6 +20,8 @@ export class User {
     passwordHash: string;
 
     @OneToMany(() => Task, (task) => task.user)
-    photos: Task[]
+    tasks: Task[];
 
+    @OneToMany(() => Session, (session) => session.user, {nullable: true})
+    sessions: Session[]
 }
