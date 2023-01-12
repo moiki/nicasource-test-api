@@ -9,10 +9,12 @@ export class TaskCreateInput implements ITaskInput {
     title: string;
 }
 
-export class TaskUpdateInput implements ITaskInput {
+export class TaskUpdateInput {
     @IsNotEmpty({message: "The description is required"})
     description: string;
+    @IsNotEmpty({message: "The id of task is missing!"})
     id: number;
+    @IsNotEmpty({message: "The status is required"})
     status: TASK_STATUS;
     @IsNotEmpty({message: "The title is required"})
     title: string;

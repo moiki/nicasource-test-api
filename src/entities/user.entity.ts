@@ -1,31 +1,27 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import {Task} from "./task.entity";
-import {ApiModel} from "swagger-express-ts";
+import {Session} from "./session.entity";
 
 @Entity({ name: "users" })
-@ApiModel( {
-    description : "User model for account" ,
-    name : "v1"
-} )
 export class User {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column()
-
     firstName: string;
 
     @Column()
-
     lastName: string;
-    @Column({unique: true})
 
+    @Column({unique: true})
     email: string;
 
     @Column()
     passwordHash: string;
 
     @OneToMany(() => Task, (task) => task.user)
-    tasks: Task[]
+    tasks: Task[];
 
+    @OneToMany(() => Session, (session) => session.user, {nullable: true})
+    sessions: Session[]
 }

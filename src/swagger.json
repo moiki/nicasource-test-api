@@ -1,0 +1,555 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Task Manager API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/"
+    }
+  ],
+  "paths": {
+    "/account/signup": {
+      "post": {
+        "tags": [
+          "AccountEndpoints"
+        ],
+        "summary": "Register a new account",
+        "description": "Send the required data to create a new account.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/signUpSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "400": {
+            "description": "The account couldn't be created!"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/account/login": {
+      "post": {
+        "tags": [
+          "AccountEndpoints"
+        ],
+        "summary": "sign in",
+        "description": "Login to the application.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "400": {
+            "description": "The account couldn't be created!"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/account/me": {
+      "get": {
+        "tags": [
+          "AccountEndpoints"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Register a new account",
+        "description": "Send the required data to create a new account.",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/meResponseBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "400": {
+            "description": "The account couldn't be created!"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/account/logout": {
+      "get": {
+        "tags": [
+          "AccountEndpoints"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Logout",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Logout failed"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/list": {
+      "get": {
+        "tags": [
+          "TaskEndpoints"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get a list of task",
+        "description": "Get the tasks of the logged user",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/taskListResponseBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/{id}": {
+      "get": {
+        "tags": [
+          "TaskEndpoints"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "summary": "Get one of task",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/taskResponseBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/create": {
+      "post": {
+        "tags": [
+          "TaskEndpoints"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Add a new task",
+        "description": "",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/taskRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/taskListResponseBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/update": {
+      "put": {
+        "tags": [
+          "TaskEndpoints"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Update a task",
+        "description": "",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/taskUpdateRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/taskListResponseBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/remove/{id}": {
+      "delete": {
+        "tags": [
+          "TaskEndpoints"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "summary": "Update a task",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/taskListResponseBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/set-status": {
+      "put": {
+        "tags": [
+          "TaskEndpoints"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Update the status of a task",
+        "description": "",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/setStatusBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "signUpSchema": {
+        "required": [
+          "firstName",
+          "lastName",
+          "email",
+          "password",
+          "confirmPassword"
+        ],
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "email": {
+            "uniqueItems": true,
+            "type": "string",
+            "example": "john@doe.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "@Demo123456"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "example": "@Demo123456"
+          }
+        }
+      },
+      "loginSchema": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "uniqueItems": true,
+            "type": "string",
+            "example": "john@doe.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "********"
+          }
+        }
+      },
+      "meResponseBody": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "340d5c46-f14f-4453-bd65-57e1075a7d21"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "email": {
+            "uniqueItems": true,
+            "type": "string",
+            "example": "john@doe.com"
+          }
+        }
+      },
+      "taskListResponseBody": {
+        "type": "array",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": "1"
+          },
+          "title": {
+            "type": "string",
+            "example": "task #1"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is a new task..."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pending",
+              "Progress",
+              "Done"
+            ],
+            "example": "Done"
+          }
+        }
+      },
+      "taskResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": "1"
+          },
+          "title": {
+            "type": "string",
+            "example": "task #1"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is a new task..."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pending",
+              "Progress",
+              "Done"
+            ],
+            "example": "Done"
+          }
+        }
+      },
+      "taskRequestBody": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "task #1"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is a new task..."
+          }
+        }
+      },
+      "taskUpdateRequestBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": "1"
+          },
+          "title": {
+            "type": "string",
+            "example": "task #1"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is a new task..."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pending",
+              "Progress",
+              "Done"
+            ],
+            "example": "Done"
+          }
+        }
+      },
+      "setStatusBody": {
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": "1"
+          },
+          "status": {
+            "type": "string",
+            "example": "Pending"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

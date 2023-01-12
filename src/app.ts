@@ -1,22 +1,17 @@
+import "reflect-metadata";
 import express, {Application as ExApplication} from 'express';
-import path from "path";
 import configCommon from "./common/enviroment.common";
 import cors from "cors";
 import {DataBaseConnection} from "./common/typeorm.common";
 import {attachControllers} from "@decorators/express";
-import AccountController from "./controllers/account/account.controller";
 import seedHelper from "./helpers/seed.helper";
-import * as console from "console";
-import TaskController from "./controllers/tasks/task.controller";
 import morgan from "morgan";
-import * as swagger from "swagger-express-ts";
-import {SwaggerDefinitionConstant} from "swagger-express-ts";
-
+import swaggerUi from "swagger-ui-express";
+import * as swaggerDocument from "./swagger.json";
+import controllers from "./controllers";
 class Application {
     private readonly app: ExApplication;
-    // get instanceApp(): ExApplication {
-    //     return this.app;
-    // }
+
     constructor() {
         this.app = express();
         this.startMiddlewares();
@@ -32,22 +27,7 @@ class Application {
             this.app.use(cors({origin: "*"}));
             this.app.use(morgan("tiny"));
         }
-        this.app.use('/api-docs/swagger', express.static('swagger'));
-        this.app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
-        this.app.use(swagger.express(
-            {
-                definition: {
-                    info: {
-                        title: "Task Manager API",
-                        version: "1.0"
-                    },
-                    externalDocs: {
-                        url: "/docs"
-                    }
-                    // Models can be defined here
-                }
-            }
-        ));
+        this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     }
 
     private startDatabaseInstance() {
@@ -63,10 +43,11 @@ class Application {
 
     private registerRouters() {
         this.app.get("/", (_, res) => {
-            res.sendFile(path.join(__dirname, '/templates/hello.html'));
+            // res.sendFile(path.join(__dirname, '/templates/hello.html'));
+            res.redirect("/api-docs");
         });
         // TODO: register routers
-        attachControllers(this.app, [AccountController, TaskController]);
+        attachControllers(this.app, controllers);
     }
 
     public start() {

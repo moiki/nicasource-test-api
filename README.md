@@ -1,7 +1,7 @@
 ## Task Manager Api
 <hr>
 
-default User
+To login into the API, use the default User credentials.
 
 ```Javascript
     email: "default@user.com"
